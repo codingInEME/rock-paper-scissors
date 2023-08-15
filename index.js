@@ -26,6 +26,13 @@ function game(rounds) {
         let beat;
 
         let playerSelection = capitalize(prompt("Enter your choice: (Rock, Paper, Scissors)").trim());
+
+        if (!idToName.includes(playerSelection)) {
+            console.error(`Input should only contain one of these ${idToName}`);
+            i--;
+            continue;
+        }
+
         let computerSelection = getComputerChoice();
         let result = playRound(playerSelection, computerSelection);
 
