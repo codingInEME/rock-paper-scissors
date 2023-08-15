@@ -25,7 +25,7 @@ function game(rounds) {
         let outcome;
         let beat;
 
-        let playerSelection = capitalize(prompt("Enter your choice: (Rock, Paper, Scissors)"));
+        let playerSelection = capitalize(prompt("Enter your choice: (Rock, Paper, Scissors)").trim());
         let computerSelection = getComputerChoice();
         let result = playRound(playerSelection, computerSelection);
 
