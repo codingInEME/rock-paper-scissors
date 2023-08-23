@@ -1,4 +1,29 @@
+const rounds = 5;
 const idToName = ['Rock', 'Paper', 'Scissors'];
+
+let playerWins = 0;
+let computerWins = 0;
+let currentRound = 0;
+let gameEnd = false;
+
+const choiceBtns = document.querySelectorAll('.choice');
+const resetBtn = document.querySelector('#reset-game');
+const outputDiv = document.querySelector('.output');
+
+Array.from(choiceBtns).forEach(btn => {
+    btn.addEventListener('click', gameUI);
+});
+
+resetBtn.addEventListener('click', resetGame);
+
+function resetGame() {
+    playerWins = 0;
+    computerWins = 0;
+    currentRound = 0;
+    gameEnd = false;
+
+    outputDiv.textContent = '';
+}
 
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
@@ -17,53 +42,54 @@ function playRound(playerSelection, computerSelection) {
             (playerSelection === "Scissors" && computerSelection === "Paper");
 }
 
-function game(rounds) {
-    let playerWins = 0;
-    let computerWins = 0;
+function gameUI() {
 
-    for (let i = 0; i < rounds; i++) {
-        let outcome;
-        let beat;
+    if (gameEnd)
+        return;
 
-        let playerSelection = capitalize(prompt("Enter your choice: (Rock, Paper, Scissors)").trim());
+    let playerSelection = capitalize(this.id);
 
+    if (currentRound < rounds) {
         if (!idToName.includes(playerSelection)) {
             console.error(`Input should only contain one of these ${idToName}`);
-            i--;
-            continue;
+            return;
         }
+
+        const para = document.createElement('p');
 
         let computerSelection = getComputerChoice();
         let result = playRound(playerSelection, computerSelection);
 
         if (result === -1) {
-            console.log(`It's a Draw! ${playerSelection} cannot beat ${computerSelection}`);
-            continue;
+            para.textContent = `It's a Draw! ${playerSelection} cannot beat ${computerSelection}`;
         }
         else if (result === true) {
-            outcome = "Win";
-            beat = `${playerSelection} beats ${computerSelection}`;
+            para.textContent = `You Win ${playerSelection} beats ${computerSelection}`;
             playerWins++;
         }
         else {
-            outcome = "Lose";
-            beat = `${computerSelection} beats ${playerSelection}`;
+            para.textContent = `You Lose ${computerSelection} beats ${playerSelection}`;
             computerWins++;
         }
+        outputDiv.appendChild(para);
 
-        console.log(`You ${outcome}! ${beat}`);
+        currentRound++;
     }
 
-    if (playerWins > computerWins)
-        console.log("Congratulation! You won the game!");
-    else if (playerWins < computerWins)
-        console.log("You lost the game! Better luck next time!");
-    else
-        console.log("The game is a draw!");
+    if (currentRound >= rounds) {
+        gameEnd = true;
+
+        const para = document.createElement('p');
+        if (playerWins > computerWins)
+            para.textContent = "Congratulation! You won the game!";
+        else if (playerWins < computerWins)
+            para.textContent = "You lost the game! Better luck next time!";
+        else
+            para.textContent = "The game is a draw!";
+        outputDiv.appendChild(para);
+    }
 }
 
 function capitalize(str) {
     return str[0].toUpperCase() + (str.slice(1)).toLowerCase();
 }
-
-game(5);
