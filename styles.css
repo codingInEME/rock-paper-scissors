@@ -1,4 +1,76 @@
-body {
+* {
     padding: 0;
     margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+.rps-container {
+    margin: 0 auto;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-status,
+.display-container,
+.choices {
+    margin-bottom: 10%;
+}
+
+#reset-game {
+    align-self: flex-start;
+    margin-bottom: 2%;
+}
+
+#game-status {
+    align-self: center;
+}
+
+.display-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-left: 15%;
+    margin-right: 15%;
+    height: 100px;
+}
+
+.wins {
+    display: inline-block;
+    margin-bottom: 10%;
+}
+
+#player-selection,
+#computer-selection,
+#outcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 80px;
+    border: 3px rgb(76, 162, 229) solid;
+    border-radius: 12%;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 4%;
+}
+
+.choice {
+    padding: 3% 0;
+    width: 12%;
+    border: none;
+    border-radius: 12%;
+    background-color: rgb(72, 235, 195);
+}
+
+#reset-game {
+    font-size: x-large;
+    background-color: white;
+    border: none;
 }

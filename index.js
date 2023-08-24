@@ -1,14 +1,19 @@
 const rounds = 5;
 const idToName = ['Rock', 'Paper', 'Scissors'];
 
-let playerWins = 0;
-let computerWins = 0;
-let currentRound = 0;
-let gameEnd = false;
+let playerWins;
+let computerWins;
+let currentRound;
+let gameEnd;
 
-const choiceBtns = document.querySelectorAll('.choice');
+const roundElem = document.querySelector('#game-status');
 const resetBtn = document.querySelector('#reset-game');
-const outputDiv = document.querySelector('.output');
+const choiceBtns = document.querySelectorAll('.choice');
+const playerSelectionElem = document.querySelector('#player-selection');
+const computerSelectionElem = document.querySelector('#computer-selection');
+const outcomeElem = document.querySelector('#outcome');
+const playerWinsElem = document.querySelector('#player-wins');
+const computerWinsElem = document.querySelector('#computer-wins');
 
 Array.from(choiceBtns).forEach(btn => {
     btn.addEventListener('click', gameUI);
@@ -16,13 +21,30 @@ Array.from(choiceBtns).forEach(btn => {
 
 resetBtn.addEventListener('click', resetGame);
 
+document.addEventListener('DOMContentLoaded', resetGame);
+
 function resetGame() {
     playerWins = 0;
     computerWins = 0;
     currentRound = 0;
     gameEnd = false;
 
-    outputDiv.textContent = '';
+    updateGameElems();
+}
+
+function updateGameElems(
+    playerSelection = '',
+    computerSelection = '',
+    outcome = '',
+    gameStatus = `Round: ${currentRound} / ${rounds}`
+) {
+
+    playerSelectionElem.textContent = playerSelection;
+    computerSelectionElem.textContent = computerSelection;
+    outcomeElem.textContent = outcome;
+    roundElem.textContent = gameStatus;
+    playerWinsElem.textContent = playerWins;
+    computerWinsElem.textContent = computerWins;
 }
 
 function getComputerChoice() {
@@ -49,45 +71,45 @@ function gameUI() {
 
     let playerSelection = capitalize(this.id);
 
-    if (currentRound < rounds) {
-        if (!idToName.includes(playerSelection)) {
-            console.error(`Input should only contain one of these ${idToName}`);
-            return;
-        }
-
-        const para = document.createElement('p');
-
-        let computerSelection = getComputerChoice();
-        let result = playRound(playerSelection, computerSelection);
-
-        if (result === -1) {
-            para.textContent = `It's a Draw! ${playerSelection} cannot beat ${computerSelection}`;
-        }
-        else if (result === true) {
-            para.textContent = `You Win ${playerSelection} beats ${computerSelection}`;
-            playerWins++;
-        }
-        else {
-            para.textContent = `You Lose ${computerSelection} beats ${playerSelection}`;
-            computerWins++;
-        }
-        outputDiv.appendChild(para);
-
-        currentRound++;
+    if (!idToName.includes(playerSelection)) {
+        console.error(`Input should only contain one of these ${idToName}`);
+        return;
     }
 
+    let outcome;
+
+    let computerSelection = getComputerChoice();
+    let result = playRound(playerSelection, computerSelection);
+
+    if (result === -1)
+        outcome = 'Draw';
+    else if (result === true) {
+        outcome = 'Win';
+        playerWins++;
+    }
+    else {
+        outcome = 'Lose';
+        computerWins++;
+    }
+
+    currentRound++;
+    updateGameElems(playerSelection, computerSelection, outcome);
+
     if (currentRound >= rounds) {
+        let gameStatus;
         gameEnd = true;
 
         const para = document.createElement('p');
         if (playerWins > computerWins)
-            para.textContent = "Congratulation! You won the game!";
+            gameStatus = 'Winner!';
         else if (playerWins < computerWins)
-            para.textContent = "You lost the game! Better luck next time!";
+            gameStatus = 'Loser!';
         else
-            para.textContent = "The game is a draw!";
-        outputDiv.appendChild(para);
+            gameStatus = 'Draw!';
+
+        updateGameElems(playerSelection, computerSelection, outcome, gameStatus);
     }
+
 }
 
 function capitalize(str) {
