@@ -1,5 +1,11 @@
 const rounds = 5;
 const idToName = ['Rock', 'Paper', 'Scissors'];
+const svg = {
+    '': '',
+    'Rock': './img/hand-rock-solid-svgrepo-com.svg',
+    'Paper': './img/hand-paper-svgrepo-com.svg',
+    'Scissors': './img/hand-scissors-svgrepo-com.svg'
+}
 
 let playerWins;
 let computerWins;
@@ -9,8 +15,8 @@ let gameEnd;
 const roundElem = document.querySelector('#game-status');
 const resetBtn = document.querySelector('#reset-game');
 const choiceBtns = document.querySelectorAll('.choice');
-const playerSelectionElem = document.querySelector('#player-selection');
-const computerSelectionElem = document.querySelector('#computer-selection');
+const playerSelectionElem = document.querySelector('#player-selection img');
+const computerSelectionElem = document.querySelector('#computer-selection img');
 const outcomeElem = document.querySelector('#outcome');
 const playerWinsElem = document.querySelector('#player-wins');
 const computerWinsElem = document.querySelector('#computer-wins');
@@ -38,9 +44,8 @@ function updateGameElems(
     outcome = '',
     gameStatus = `Round: ${currentRound} / ${rounds}`
 ) {
-
-    playerSelectionElem.textContent = playerSelection;
-    computerSelectionElem.textContent = computerSelection;
+    playerSelectionElem.src = svg[playerSelection];
+    computerSelectionElem.src = svg[computerSelection];
     outcomeElem.textContent = outcome;
     roundElem.textContent = gameStatus;
     playerWinsElem.textContent = playerWins;

@@ -55,6 +55,11 @@ button {
     border-radius: 12%;
 }
 
+#player-selection img,
+#computer-selection img {
+    width: 55%;
+}
+
 .choices {
     display: flex;
     justify-content: center;
@@ -64,9 +69,13 @@ button {
 .choice {
     padding: 3% 0;
     width: 12%;
-    border: none;
+    border: 3px black solid;
     border-radius: 12%;
     background-color: rgb(72, 235, 195);
+}
+
+.choice:hover {
+    background-color: rgb(72, 235, 195, 75%);
 }
 
 #reset-game {
