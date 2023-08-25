@@ -29,13 +29,17 @@ button {
     align-self: center;
 }
 
+.player-container,
+.computer-container {
+    text-align: center;
+}
+
 .display-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-end;
-    margin-left: 15%;
-    margin-right: 15%;
-    height: 100px;
+    flex-wrap: wrap;
+    gap: 15%;
 }
 
 .wins {
@@ -68,7 +72,7 @@ button {
 
 .choice {
     padding: 3% 0;
-    width: 12%;
+    min-width: 12%;
     border: 3px black solid;
     border-radius: 12%;
     background-color: rgb(72, 235, 195);
